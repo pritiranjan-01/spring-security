@@ -27,10 +27,11 @@ public class SecurityConfiguration {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
         			  .authorizeHttpRequests(auth-> auth
-        					.requestMatchers("/home","/signup","/authenticate",
-                                    "/refresh","/logout","/swagger-ui/**",
-                                    "/error",
-                                    "/v3/api-docs/**").permitAll()
+        					.requestMatchers(
+                                 "/home","/signup","/authenticate","/register",
+                                 "/refresh","/logout","/swagger-ui/**",
+                                 "/error",
+                                 "/v3/api-docs/**").permitAll()
         					.anyRequest().authenticated())
                       .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 

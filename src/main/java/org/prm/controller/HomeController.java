@@ -31,12 +31,12 @@ public class HomeController {
     }
 
     @GetMapping("/employees")
-    public List<Object> getEmployees() {
+    public List<Object> getObject() {
         return list;
     }
 
     @PostMapping("/add")
-    public String addEmployee(@RequestBody Object object) {
+    public String addObject(@RequestBody Object object) {
         list.add(object);
       return "Employee added successfully!";
     }
