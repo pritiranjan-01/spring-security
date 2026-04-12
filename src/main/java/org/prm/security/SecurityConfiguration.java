@@ -28,10 +28,10 @@ public class SecurityConfiguration {
         http
         			  .authorizeHttpRequests(auth-> auth
         					.requestMatchers(
-                                 "/home","/signup","/authenticate","/register",
+                                 "/home","/login","/register",
                                  "/refresh","/logout","/swagger-ui/**",
-                                 "/error",
-                                 "/v3/api-docs/**").permitAll()
+                                 "/error", "/v3/api-docs/**")
+                            .permitAll()
         					.anyRequest().authenticated())
                       .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 

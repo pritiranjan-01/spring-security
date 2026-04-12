@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,11 +53,17 @@ public class AuthController {
         return new ResponseEntity<>(Map.of("message", "User registration successful"), HttpStatus.CREATED);
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
         try {
-            authenticationManager.authenticate(
+            Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+            // We can get the UserDetails using the Authentication Object. In which password is set to null
+            // by Spring Security to avoid memory leaks and accidental logging.
+
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            System.out.println(userDetails.getUsername()+" "+ userDetails.getPassword()+" "+userDetails.getAuthorities());
 
             String accessToken = jwtUtil.generateAccessToken(request.getUsername());
 
